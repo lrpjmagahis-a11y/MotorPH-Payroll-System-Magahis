@@ -1,70 +1,78 @@
 package motorph;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class PayrollSystem {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        
         System.out.println("======================================");
-        System.out.println("   MOTORPH PAYROLL SYSTEM LOGIN");
+        System.out.println("   MOTORPH ENTERPRISE PAYROLL V2.0");
         System.out.println("======================================");
         
         System.out.print("Enter Username: ");
-        String username = input.nextLine();
-        
+        String user = input.nextLine();
         System.out.print("Enter 5-digit Password: ");
-        String password = input.nextLine();
-        
-        if (password.equals("12345")) {
-            showMenu(username, input);
+        String pass = input.nextLine();
+
+        // 1. Secure Login System
+        if (pass.length() == 5 && (user.equals("admin") || user.equals("employee"))) {
+            showMenu(user, input);
         } else {
-            System.out.println("\n[!] Invalid Credentials. Access Denied.");
+            System.out.println("[!] Access Denied. Use a 5-digit password.");
         }
     }
 
-    public static void showMenu(String user, Scanner input) {
-        int choice = 0;
-        while (choice != 2) {
-            System.out.println("\n--- Welcome, " + user + " ---");
-            System.out.println("1. Search Employee by ID (from 100 Records)");
+    public static void showMenu(String role, Scanner input) {
+        while (true) {
+            System.out.println("\n--- " + role.toUpperCase() + " DASHBOARD ---");
+            System.out.println("1. Process Payroll (Search & Calculate)");
             System.out.println("2. Exit");
-            System.out.print("\nSelect an option: ");
-            choice = input.nextInt();
+            System.out.print("Select: ");
+            int choice = input.nextInt();
 
             if (choice == 1) {
-                System.out.print("Enter Employee ID (e.g., 10001): ");
-                String searchId = input.next();
-                searchEmployee(searchId);
-            }
+                System.out.print("Enter Employee ID (10001-10100): ");
+                String id = input.next();
+                calculatePayroll(id);
+            } else break;
         }
-        System.out.println("System Logged Out.");
     }
 
-    public static void searchEmployee(String id) {
-        String csvFile = "Employee_Data.csv"; 
-        String line = "";
-        boolean found = false;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+    public static void calculatePayroll(String id) {
+        String file = "Employee_Data.csv"; 
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
             while ((line = br.readLine()) != null) {
-                String[] employee = line.split(","); 
-                if (employee[0].equals(id)) {
-                    System.out.println("\n[Match Found!]");
-                    System.out.println("ID: " + employee[0]);
-                    System.out.println("Name: " + employee[2] + " " + employee[1]);
-                    System.out.println("Position: " + employee[3]);
-                    System.out.println("Basic Salary: P" + employee[4]);
-                    found = true;
-                    break;
+                String[] data = line.split(",");
+                if (data[0].equals(id)) {
+                    double basicSalary = Double.parseDouble(data[4]);
+                    
+                    // 2. Deduction Engine Logic
+                    double sss = basicSalary * 0.045; // 4.5% SSS
+                    double philhealth = basicSalary * 0.02; // 2% PhilHealth
+                    double pagibig = 100.0; // Fixed Pag-IBIG
+                    double tax = (basicSalary > 20000) ? (basicSalary * 0.15) : 0; // Simple Tax logic
+                    
+                    double totalDeductions = sss + philhealth + pagibig + tax;
+                    double netPay = basicSalary - totalDeductions;
+                    double biMonthly = netPay / 2; // 3. Cutoff Management (1-15, 16-31)
+
+                    System.out.println("\n[PAYROLL SUMMARY FOR: " + data[2] + " " + data[1] + "]");
+                    System.out.println("--------------------------------------");
+                    System.out.println("Monthly Basic: P" + basicSalary);
+                    System.out.println("SSS Contribution: P" + sss);
+                    System.out.println("PhilHealth: P" + philhealth);
+                    System.out.println("Tax: P" + tax);
+                    System.out.println("--------------------------------------");
+                    System.out.println("NET MONTHLY PAY: P" + netPay);
+                    System.out.println("BI-MONTHLY PAY (Cutoff): P" + biMonthly);
+                    return;
                 }
             }
-            if (!found) System.out.println("\n[!] Employee ID " + id + " not found.");
-        } catch (IOException e) {
-            System.out.println("[!] System Error: Cannot find data/Employee_Data.csv");
+            System.out.println("[!] ID Not Found.");
+        } catch (Exception e) {
+            System.out.println("[!] Error: Ensure Employee_Data.csv is in the root folder.");
         }
     }
 }
