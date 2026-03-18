@@ -45,7 +45,7 @@ public class PayrollSystem {
     }
 
     public static void searchEmployee(String id) {
-        String csvFile = "data/Employee_Data.csv"; 
+        String csvFile = "Employee_Data.csv"; 
         String line = "";
         boolean found = false;
 
