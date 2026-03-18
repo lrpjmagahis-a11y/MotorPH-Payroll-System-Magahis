@@ -63,11 +63,14 @@ public class PayrollSystem {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
                 if (data[0].equals(id)) {
-                    double monthlySalary = Double.parseDouble(data[4]);
+                    // --- UPDATED INDICES BASED ON YOUR DATA ---
+                    String lastName = data[1];
+                    String firstName = data[2];
+                    double hourlyRate = Double.parseDouble(data[18]); // Column 19 (HourlyRate)
+                    
                     double hoursWorked = getHoursFromLogs(id);
                     
                     // Calculation Logic
-                    double hourlyRate = monthlySalary / 160; 
                     double grossPay = hourlyRate * hoursWorked;
                     
                     // Deduction Engine (SSS, PhilHealth, Tax)
@@ -77,7 +80,8 @@ public class PayrollSystem {
                     double netPay = grossPay - (sss + philhealth + tax);
 
                     System.out.println("\n[PAYROLL RESULT FOR ID: " + id + "]");
-                    System.out.println("Name: " + data[2] + " " + data[1]);
+                    System.out.println("Name: " + firstName + " " + lastName);
+                    System.out.println("Position: " + data[11]); 
                     System.out.println("Total Hours Worked: " + hoursWorked);
                     System.out.println("--------------------------------------");
                     System.out.println("Gross Pay: P" + String.format("%.2f", grossPay));
@@ -87,9 +91,9 @@ public class PayrollSystem {
                     return;
                 }
             }
-            System.out.println("[!] Employee ID not found in database.");
+            System.out.println("[!] Employee ID not found.");
         } catch (Exception e) {
-            System.out.println("[!] System Error: Check if CSV files are in the main folder.");
+            System.out.println("[!] System Error: " + e.getMessage());
         }
     }
 }
