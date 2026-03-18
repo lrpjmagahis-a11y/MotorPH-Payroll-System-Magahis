@@ -1,4 +1,5 @@
-# MotorPH Automatic Payroll System
+# MotorPH Automatic Payroll System v3.0
+**Course Project: IT101 - Computer Programming 1**
 
 A Java-based automatic payroll system that manages employee information, attendance records, and payroll calculations. This system demonstrates core programming skills, file handling, and payroll computation logic including SSS, PhilHealth, Pag-IBIG, and tax deductions.
 
@@ -6,15 +7,23 @@ A Java-based automatic payroll system that manages employee information, attenda
 
 ## 📌 Project Contributor
 
-### [Princess Jade R. Magahis] – Lead Developer & Data Architect
+### Princess Jade R. Magahis – Lead Developer & Data Architect
 * **System Logic:** Implemented the primary payroll computation tasks, such as calculating net pay, gross pay, deductions, and employee worked hours. 
 * **Data Management:** Processed and structured employee attendance information for 100+ records, including time-in and time-out data used to calculate work hours.
 * **UI/UX:** Created the program menu and handled user input validation to ensure seamless interaction with the payroll processing engine.
 
 ---
 
-## 💻 Program Details
+## 🛠️ Technical Stack
+* **Programming Language:** Java (JDK 11 or higher)
+* **Data Storage:** Flat-file Database (CSV - Comma Separated Values)
+* **Development Environment:** Apache NetBeans IDE
+* **Version Control:** Git & GitHub (Remote Repository Management)
+* **File I/O:** Java BufferedReader & FileReader for automated data streaming
 
+---
+
+## 💻 Program Details
 The **MotorPH Automatic Payroll System** is a Java application that automates payroll processing. The system reads employee information and attendance records from CSV files and calculates employee salaries based on their recorded working hours.
 
 The program determines the total hours worked by each employee within a selected payroll cutoff period (1–15 or 16–31 of the month). Using the employee’s hourly rate, it calculates the gross salary and automatically applies government deductions such as **SSS, PhilHealth, Pag-IBIG, and withholding tax** to produce the final net salary.
@@ -22,7 +31,6 @@ The program determines the total hours worked by each employee within a selected
 ---
 
 ## 🚀 Program Features
-
 - **Employee Login:** Secure login system with username and 5-digit password.
 - **Payroll Admin Access:** Dedicated login for processing and reviewing the entire workforce.
 - **Scalability:** Handles 100+ employees (expandable up to 1000).
@@ -33,18 +41,16 @@ The program determines the total hours worked by each employee within a selected
 ---
 
 ## 📂 Program Files
-
-- `MotorPH_System.java` – Main program logic and entry point.
-- `data/Employee_Data.csv` – Contains IDs, names, SSS/TIN/PhilHealth, and hourly rates.
-- `data/Attendance_Logs.csv` – Contains randomized attendance logs with varied time-in/out.
+- `src/motorph/PayrollSystem.java` – Main program logic and entry point.
+- `Employee_Data.csv` – Master list containing IDs, names, and hourly rates (Root Directory).
+- `Attendance_Logs.csv` – Contains randomized attendance logs with varied time-in/out (Root Directory).
 
 ---
 
 ## 📅 Project Documentation & Planning
-
 The project development tasks and payroll logic mapping can be found in the official documentation link below:
 
-[📊 View Project Plan & Data Sheets (Google Docs/Sheets)](https://docs.google.com/spreadsheets/d/13hAkgWlgDkVVQ-ZN1YtAlJpFTIJS0ifu/edit?usp=sharing&ouid=117006809110779909774&rtpof=true&sd=true)
+[📊 View Project Plan & Data Sheets (Google Sheets)](https://docs.google.com/spreadsheets/d/13hAkgWlgDkVVQ-ZN1YtAlJpFTIJS0ifu/edit?usp=sharing&ouid=117006809110779909774&rtpof=true&sd=true)
 
 ---
 
@@ -54,14 +60,12 @@ The project development tasks and payroll logic mapping can be found in the offi
 Clone the repository and open the project using **NetBeans IDE**.
 
 ### 2. Verify Project Files
-Ensure the `data` folder contains:
-- `Attendance_Logs.csv`
-- `Employee_Data.csv`
+Ensure `Attendance_Logs.csv` and `Employee_Data.csv` are located in the **Project Root Folder** (same level as the `src` folder) for the system to detect the database.
 
 ### 3. Run the Program
 1. Open the project in **NetBeans**.
-2. Run `MotorPH_System.java`.
+2. Right-click `PayrollSystem.java` and select **Run File**.
 
 ### 4. Login Credentials
 - **Employee Account:** Username: `employee` | Password: `12345`
-- **Payroll Account:** Username: `payroll` | Password: `12345`
+- **Admin/Payroll Account:** Username: `admin` | Password: `12345`
