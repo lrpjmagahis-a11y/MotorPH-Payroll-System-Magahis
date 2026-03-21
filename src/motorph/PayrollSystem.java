@@ -100,12 +100,8 @@ public class PayrollSystem {
                     }
                 } else if (sub.equals("2")) {
                     processAllEmployees();
-                } else if (sub.equals("3")) {
-                    break;
-                }
-            } else if (choice.equals("2")) {
-                break;
-            }
+                } else if (sub.equals("3")) break;
+            } else if (choice.equals("2")) break;
         }
     }
 
@@ -124,25 +120,23 @@ public class PayrollSystem {
             double g1 = h1 * rate;
             double g2 = h2 * rate;
 
-            // First Cutoff
             System.out.println("\nCutoff Date: " + getMonthName(m) + " 1 to " + getMonthName(m) + " 15");
             System.out.println("Total Hours Worked: " + h1);
             System.out.println("Gross Salary: " + g1);
             System.out.println("Net Salary: " + g1);
 
-            // Second Cutoff (Deductions based on Monthly Total)
             double monthlyGross = g1 + g2;
             double phil = monthlyGross * 0.03;
-            double love = 100.0;
-            double tax = (monthlyGross - (phil + love)) * 0.15;
-            double totalDeduct = phil + love + tax;
+            double pagibig = 100.0; // Changed label from LOVE to Pag-ibig
+            double tax = (monthlyGross - (phil + pagibig)) * 0.15;
+            double totalDeduct = phil + pagibig + tax;
 
             System.out.println("\nCutoff Date: " + getMonthName(m) + " 16 to " + getMonthName(m) + " 30/31");
             System.out.println("Total Hours Worked: " + h2);
             System.out.println("Gross Salary: " + g2);
             System.out.println("Each Deduction:");
             System.out.println("PhilHealth: " + phil);
-            System.out.println("LOVE: " + love);
+            System.out.println("Pag-ibig: " + pagibig); // Changed label
             System.out.println("Tax: " + tax);
             System.out.println("Total Deductions: " + totalDeduct);
             System.out.println("Net Salary: " + (g2 - totalDeduct));
@@ -168,14 +162,19 @@ public class PayrollSystem {
             System.out.println("Net Salary: " + (h1 * rate));
         } else {
             double totalGross = (h1 + h2) * rate;
-            double phil = totalGross * 0.03, love = 100.0, tax = (totalGross - (phil + love)) * 0.15;
+            double phil = totalGross * 0.03, pagibig = 100.0, tax = (totalGross - (phil + pagibig)) * 0.15;
             System.out.println("\nCutoff Date: " + getMonthName(m) + " 16 to End");
             System.out.println("Total Hours Worked: " + h2);
             System.out.println("Gross Salary: " + (h2 * rate));
-            System.out.println("Net Salary: " + ((h2 * rate) - (phil + love + tax)));
+            System.out.println("Each Deduction:");
+            System.out.println("PhilHealth: " + phil);
+            System.out.println("Pag-ibig: " + pagibig); // Changed label
+            System.out.println("Tax: " + tax);
+            System.out.println("Net Salary: " + ((h2 * rate) - (phil + pagibig + tax)));
         }
     }
 
+    // --- REUSED CORE LOGIC ---
     public static void processAllEmployees() {
         File f = getFile("Employee Details.csv");
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
@@ -187,7 +186,6 @@ public class PayrollSystem {
         } catch (Exception e) { }
     }
 
-    // --- CORE LOGIC & UTILS ---
     public static String[] findEmployee(String id) {
         File f = getFile("Employee Details.csv");
         if (f == null) return null;
